@@ -1,0 +1,145 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --brand: 79 70 229;
+  --normal: 22 163 74;
+  --mild: 217 119 6;
+  --severe: 220 38 38;
+  --bg-soft: 248 250 252;
+  font-family: "Aptos", "Segoe UI", sans-serif;
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply min-h-screen bg-slate-50 text-slate-900 antialiased dark:bg-slate-950 dark:text-slate-100;
+  background-image:
+    radial-gradient(circle at top left, rgba(79, 70, 229, 0.16), transparent 32%),
+    radial-gradient(circle at 85% 18%, rgba(6, 182, 212, 0.12), transparent 24%),
+    linear-gradient(180deg, rgba(248, 250, 252, 0.96) 0%, rgba(241, 245, 249, 1) 100%);
+}
+
+.dark body {
+  background-image:
+    radial-gradient(circle at top left, rgba(79, 70, 229, 0.22), transparent 30%),
+    radial-gradient(circle at 85% 18%, rgba(8, 145, 178, 0.18), transparent 24%),
+    linear-gradient(180deg, rgba(2, 6, 23, 0.96) 0%, rgba(15, 23, 42, 1) 100%);
+}
+
+h1,
+h2,
+h3,
+h4,
+.font-display {
+  font-family: "Trebuchet MS", "Aptos", sans-serif;
+}
+
+#root {
+  @apply min-h-screen;
+}
+
+@keyframes floaty {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.glass-card {
+  @apply rounded-[28px] border border-white/70 bg-white/85 shadow-panel shadow-slate-200/60 backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/80 dark:shadow-black/20;
+}
+
+.section-shell {
+  @apply glass-card p-6 md:p-8;
+}
+
+.metric-card {
+  @apply rounded-3xl border border-slate-200/70 bg-white/80 p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900/70;
+}
+
+.hero-badge {
+  @apply inline-flex items-center gap-2 rounded-full border border-brand/20 bg-white/80 px-4 py-2 text-sm font-medium text-slate-700 shadow-sm backdrop-blur dark:border-brand/30 dark:bg-slate-900/70 dark:text-slate-200;
+}
+
+.stage-pill {
+  @apply inline-flex items-center gap-2 rounded-full px-3 py-1 text-sm font-semibold;
+}
+
+.stage-pill.normal {
+  @apply bg-green-100 text-green-700 dark:bg-green-950/50 dark:text-green-300;
+}
+
+.stage-pill.mild {
+  @apply bg-amber-100 text-amber-700 dark:bg-amber-950/40 dark:text-amber-300;
+}
+
+.stage-pill.severe {
+  @apply bg-red-100 text-red-700 dark:bg-red-950/50 dark:text-red-300;
+}
+
+.severity-shell {
+  position: relative;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  transition: transform 0.35s ease;
+}
+
+.severity-shell:hover {
+  transform: scale(1.02);
+}
+
+.fade-up {
+  animation: fade-up 0.7s ease both;
+}
+
+.floaty {
+  animation: floaty 4s ease-in-out infinite;
+}
+
+.sidebar-link {
+  @apply flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white;
+}
+
+.sidebar-link.active {
+  @apply bg-brand text-white shadow-lg shadow-brand/20 hover:bg-brand hover:text-white dark:bg-brand;
+}
+
+.grid-lines {
+  background-image:
+    linear-gradient(rgba(148, 163, 184, 0.14) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, 0.14) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.soft-scrollbar::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.soft-scrollbar::-webkit-scrollbar-thumb {
+  @apply rounded-full bg-slate-300 dark:bg-slate-700;
+}

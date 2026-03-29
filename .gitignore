@@ -1,0 +1,52 @@
+# Ignore large dataset image folders
+dataset/ODIR-5K/ODIR-5K/Training Images/
+dataset/ODIR-5K/ODIR-5K/Testing Images/
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.venv/
+venv/
+env/
+
+# Backend generated assets
+backend/database/cataract.db
+backend/model/cataract_model.h5
+backend/model/training_history.png
+backend/model/classification_report.txt
+backend/model/confusion_matrix.csv
+backend/model/confusion_matrix.png
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+frontend/.env.*
+frontend/.env.local
+frontend/.env.example
+*.env
+
+# Lock files (optional, if not needed)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/
+
+# Dataset (ignore large/raw data)
+dataset/ODIR-5K/
+dataset/preprocessed_images/
+dataset/ODIR-5K
+dataset/preprocessed_images
+
+# Other large files
+allfiles.txt
+*.sqlite3
