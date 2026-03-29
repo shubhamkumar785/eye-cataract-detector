@@ -58,6 +58,17 @@ def init_db() -> None:
         )
         connection.commit()
 
+        # Ensure a default 'Public User' with ID 1 exists
+        cursor.execute("SELECT id FROM users WHERE id = 1")
+        if cursor.fetchone() is None:
+            cursor.execute(
+                """
+                INSERT INTO users (id, name, email, password_hash)
+                VALUES (1, 'Public User', 'public@example.com', 'none')
+                """
+            )
+            connection.commit()
+
 
 def create_user(name: str, email: str, password: str) -> Dict[str, Any]:
     password_hash = generate_password_hash(password)

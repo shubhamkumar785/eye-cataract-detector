@@ -29,7 +29,7 @@ from config import Config
 IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png"}
 SEED = 42
 BATCH_SIZE = 32
-EPOCHS = 25
+EPOCHS = 10
 AUTOTUNE = tf.data.AUTOTUNE
 CANONICAL_FOLDERS = {"normal": "Normal", "mild": "Mild", "severe": "Severe"}
 

@@ -47,8 +47,7 @@ const mapReportToResult = (report) => {
 };
 
 
-function Dashboard({ authUser, isDarkMode, onToggleTheme, onLogout }) {
-  const navigate = useNavigate();
+function Dashboard({ isDarkMode, onToggleTheme }) {
   const [reports, setReports] = useState([]);
   const [stats, setStats] = useState(emptyStats);
   const [currentResult, setCurrentResult] = useState(null);
@@ -66,10 +65,6 @@ function Dashboard({ authUser, isDarkMode, onToggleTheme, onLogout }) {
     }
   };
 
-  const handleLogout = useCallback(() => {
-    onLogout();
-    navigate("/login");
-  }, [navigate, onLogout]);
 
   const refreshDashboardData = useCallback(
     async (showSpinner = false) => {
@@ -95,7 +90,7 @@ function Dashboard({ authUser, isDarkMode, onToggleTheme, onLogout }) {
         }
       }
     },
-    [handleLogout],
+    [],
   );
 
   useEffect(() => {
@@ -214,10 +209,8 @@ function Dashboard({ authUser, isDarkMode, onToggleTheme, onLogout }) {
     <main className="min-h-screen px-4 py-5 md:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl lg:hidden">
         <Navbar
-          authUser={authUser}
           isDarkMode={isDarkMode}
           onToggleTheme={onToggleTheme}
-          onLogout={handleLogout}
           compact
         />
       </div>
@@ -232,7 +225,7 @@ function Dashboard({ authUser, isDarkMode, onToggleTheme, onLogout }) {
                 </div>
                 <div>
                   <p className="font-display text-lg font-bold text-slate-900 dark:text-white">
-                    Cataract AI
+                    Cataract Detection
                   </p>
                   <p className="text-sm text-slate-500 dark:text-slate-400">
                     Screening dashboard
@@ -240,17 +233,6 @@ function Dashboard({ authUser, isDarkMode, onToggleTheme, onLogout }) {
                 </div>
               </div>
 
-              <div className="rounded-[24px] bg-slate-50/90 p-4 dark:bg-slate-950/70">
-                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">
-                  Signed in as
-                </p>
-                <p className="mt-2 font-semibold text-slate-900 dark:text-white">
-                  {authUser?.name || "User"}
-                </p>
-                <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">
-                  {authUser?.email || "No email available"}
-                </p>
-              </div>
 
               <nav className="mt-8 grid gap-2">
                 {navigationItems.map((item) =>
@@ -284,14 +266,6 @@ function Dashboard({ authUser, isDarkMode, onToggleTheme, onLogout }) {
                 className="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-100"
               >
                 Toggle {isDarkMode ? "Light" : "Dark"} Mode
-              </button>
-              <button
-                type="button"
-                onClick={handleLogout}
-                className="inline-flex items-center justify-center gap-2 rounded-2xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 dark:bg-white dark:text-slate-900"
-              >
-                <LogOut className="h-4 w-4" />
-                Logout
               </button>
             </div>
           </div>
@@ -341,8 +315,6 @@ function Dashboard({ authUser, isDarkMode, onToggleTheme, onLogout }) {
             result={currentResult}
             onSaveReport={handleSaveReport}
             onScanAgain={handleScanAgain}
-            userEmail={authUser?.email}
-            userName={authUser?.name}
             isDarkMode={isDarkMode}
           />
 

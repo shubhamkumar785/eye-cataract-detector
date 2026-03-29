@@ -84,62 +84,9 @@ def create_app() -> Flask:
     def health_check():
         return jsonify({"status": "ok"})
 
-    @app.route("/api/auth/register", methods=["POST"])
-    def register():
-        payload = request.get_json(silent=True) or {}
-        name = (payload.get("name") or "").strip()
-        email = (payload.get("email") or "").strip().lower()
-        password = payload.get("password") or ""
-
-        if not name or not email or not password:
-            return jsonify({"error": "Name, email, and password are required."}), 400
-
-        if len(password) < 6:
-            return jsonify({"error": "Password must be at least 6 characters long."}), 400
-
-        try:
-            user = create_user(name, email, password)
-        except ValueError as error:
-            return jsonify({"error": str(error)}), 409
-
-        token = generate_token(user)
-        return (
-            jsonify(
-                {
-                    "user_id": user["id"],
-                    "token": token,
-                    "name": user["name"],
-                    "email": user["email"],
-                }
-            ),
-            201,
-        )
-
-    @app.route("/api/auth/login", methods=["POST"])
-    def login():
-        payload = request.get_json(silent=True) or {}
-        email = (payload.get("email") or "").strip().lower()
-        password = payload.get("password") or ""
-
-        if not email or not password:
-            return jsonify({"error": "Email and password are required."}), 400
-
-        user = verify_user(email, password)
-        if user is None:
-            return jsonify({"error": "Invalid email or password."}), 401
-
-        token = generate_token(user)
-        return jsonify(
-            {
-                "user_id": user["id"],
-                "token": token,
-                "name": user["name"],
-                "email": user["email"],
-            }
-        )
+    # Auth routes removed as per plan
 
     @app.route("/api/predict", methods=["POST"])
-    @auth_required
     def predict():
         if "image" not in request.files:
             return jsonify({"error": "Image file is required."}), 400
@@ -169,7 +116,7 @@ def create_app() -> Flask:
                 os.remove(file_path)
             return jsonify({"error": f"Prediction failed: {error}"}), 500
 
-        report_id = save_report(g.current_user["id"], filename, prediction)
+        report_id = save_report(1, filename, prediction)
         saved_report = get_report_by_id(report_id)
 
         return jsonify(
@@ -182,24 +129,21 @@ def create_app() -> Flask:
         )
 
     @app.route("/api/reports", methods=["GET"])
-    @auth_required
     def reports():
-        user_reports = get_user_reports(g.current_user["id"])
+        user_reports = get_user_reports(1)
         return jsonify(user_reports)
 
     @app.route("/api/reports/<int:report_id>", methods=["GET"])
-    @auth_required
     def report_detail(report_id: int):
         report = get_report_by_id(report_id)
-        if report is None or report["user_id"] != g.current_user["id"]:
+        if report is None:
             return jsonify({"error": "Report not found."}), 404
 
         return jsonify(report)
 
     @app.route("/api/stats", methods=["GET"])
-    @auth_required
     def stats():
-        user_reports = get_user_reports(g.current_user["id"])
+        user_reports = get_user_reports(1)
         stage_counts = Counter(report["stage"] for report in user_reports)
         total_scans = len(user_reports)
         accuracy_avg = (

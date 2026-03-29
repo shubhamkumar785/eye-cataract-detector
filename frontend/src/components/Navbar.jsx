@@ -1,18 +1,13 @@
-import { Eye, LayoutDashboard, LogIn, LogOut, MoonStar, SunMedium } from "lucide-react";
-import { Link, useLocation } from "react-router-dom";
+import { Eye, MoonStar, SunMedium } from "lucide-react";
+import { Link } from "react-router-dom";
 
 
 function Navbar({
-  authUser,
   isDarkMode,
   onToggleTheme,
-  onLogout,
   showLandingLinks = false,
   compact = false,
 }) {
-  const location = useLocation();
-  const onDashboard = location.pathname === "/dashboard";
-
   return (
     <header
       className={`glass-card ${
@@ -26,7 +21,7 @@ function Navbar({
           </div>
           <div>
             <p className="font-display text-base font-bold text-slate-900 dark:text-white">
-              Cataract AI
+              Cataract Detection
             </p>
             <p className="text-xs text-slate-500 dark:text-slate-400">
               Screening dashboard
@@ -57,41 +52,6 @@ function Navbar({
           >
             {isDarkMode ? <SunMedium className="h-5 w-5" /> : <MoonStar className="h-5 w-5" />}
           </button>
-
-          {authUser?.token ? (
-            <>
-              {!onDashboard ? (
-                <Link
-                  to="/dashboard"
-                  className="hidden items-center gap-2 rounded-2xl bg-brand px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-brand/20 transition hover:-translate-y-0.5 md:inline-flex"
-                >
-                  <LayoutDashboard className="h-4 w-4" />
-                  Dashboard
-                </Link>
-              ) : null}
-
-              <button
-                type="button"
-                onClick={onLogout}
-                className={`inline-flex items-center gap-2 rounded-2xl px-4 py-3 text-sm font-semibold transition ${
-                  compact
-                    ? "bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-100"
-                    : "border border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-100"
-                }`}
-              >
-                <LogOut className="h-4 w-4" />
-                <span className={compact ? "hidden sm:inline" : ""}>Logout</span>
-              </button>
-            </>
-          ) : (
-            <Link
-              to="/login"
-              className="inline-flex items-center gap-2 rounded-2xl bg-brand px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-brand/20 transition hover:-translate-y-0.5"
-            >
-              <LogIn className="h-4 w-4" />
-              Login
-            </Link>
-          )}
         </div>
       </div>
     </header>
